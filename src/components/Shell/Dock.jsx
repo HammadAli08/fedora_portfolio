@@ -2,12 +2,13 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { useWindowManager } from '../../context/WindowManager';
 import {
-    TerminalWindow,
+    Terminal,
     Files,
     FilePdf,
     Gear,
     User,
-    SquaresFour
+    SquaresFour,
+    ChatDots
 } from 'phosphor-react';
 
 const DockItem = ({ icon: Icon, label, appId, onClick }) => {
@@ -45,9 +46,10 @@ const Dock = () => {
     const { openApp, toggleActivities } = useWindowManager();
 
     const dockApps = [
+        { id: 'assistant', label: 'Assistant', icon: ChatDots },
         { id: 'about', label: 'About Me', icon: User },
         { id: 'projects', label: 'Projects', icon: Files },
-        { id: 'terminal', label: 'Terminal', icon: TerminalWindow },
+        { id: 'terminal', label: 'Terminal', icon: Terminal },
         { id: 'resume', label: 'Resume', icon: FilePdf },
         { id: 'settings', label: 'Settings', icon: Gear },
     ];

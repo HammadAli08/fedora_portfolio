@@ -9,6 +9,7 @@ const ProjectsApp = lazy(() => import('../../apps/ProjectsApp'));
 const TerminalApp = lazy(() => import('../../apps/TerminalApp'));
 const ResumeApp = lazy(() => import('../../apps/ResumeApp'));
 const SettingsApp = lazy(() => import('../../apps/SettingsApp'));
+const AssistantApp = lazy(() => import('../../apps/AssistantApp'));
 
 const appMap = {
     about: { title: 'About Me', component: AboutApp },
@@ -16,6 +17,7 @@ const appMap = {
     terminal: { title: 'Terminal', component: TerminalApp },
     resume: { title: 'Resume', component: ResumeApp },
     settings: { title: 'Settings', component: SettingsApp },
+    assistant: { title: 'Assistant', component: AssistantApp },
 };
 
 const Desktop = () => {

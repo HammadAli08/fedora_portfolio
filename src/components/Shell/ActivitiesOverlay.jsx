@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWindowManager } from '../../context/WindowManager';
-import { MagnifyingGlass, SquaresFour } from 'phosphor-react';
+import { MagnifyingGlass, SquaresFour, ChatDots } from 'phosphor-react';
 
 const appMetadata = {
     about: { title: 'About Me' },
@@ -9,16 +9,30 @@ const appMetadata = {
     terminal: { title: 'Terminal' },
     resume: { title: 'Resume' },
     settings: { title: 'Settings' },
+    assistant: { title: 'Assistant' },
 };
 
 const ActivitiesOverlay = () => {
-    const { isActivitiesOpen, setActivitiesOpen, openApps, focusApp } = useWindowManager();
+    const { isActivitiesOpen, setActivitiesOpen, openApps, focusApp, openApp, setChatMessages } = useWindowManager();
     const [searchQuery, setSearchQuery] = useState('');
 
     if (!isActivitiesOpen) return null;
 
     const handleAppClick = (appId) => {
         focusApp(appId);
+        setActivitiesOpen(false);
+    };
+
+    const handleSearchSubmit = (e) => {
+        if (e.key === 'Enter' && searchQuery.trim()) {
+            handleAskAssistant();
+        }
+    };
+
+    const handleAskAssistant = () => {
+        setChatMessages(prev => [...prev, { role: 'user', content: searchQuery }]);
+        openApp('assistant');
+        setSearchQuery('');
         setActivitiesOpen(false);
     };
 
@@ -43,10 +57,39 @@ const ActivitiesOverlay = () => {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
+                    onKeyDown={handleSearchSubmit}
                     placeholder="Type to search..."
                     className="w-full h-12 bg-white/10 border border-white/10 rounded-full px-12 py-2 text-white placeholder-white/40 focus:outline-none focus:bg-white/15 focus:border-white/20 transition-all text-lg"
                 />
             </div>
+
+            {/* Search Results */}
+            <AnimatePresence>
+                {searchQuery && (
+                    <motion.div
+                        initial={{ opacity: 0, y: 10 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 10 }}
+                        className="w-full max-w-xl bg-[#2d2d2d]/80 backdrop-blur-xl border border-white/10 rounded-2xl overflow-hidden mb-8 scrollbar-hide"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        <button
+                            onClick={handleAskAssistant}
+                            className="w-full p-4 flex items-center gap-4 hover:bg-white/5 transition-colors text-left"
+                        >
+                            <div className="w-10 h-10 rounded-full bg-fedora-blue flex items-center justify-center text-white">
+                                <div className="w-10 h-10 rounded-full bg-fedora-blue flex items-center justify-center text-white">
+                                    <ChatDots size={20} weight="fill" />
+                                </div>
+                            </div>
+                            <div className="flex flex-col">
+                                <span className="text-white font-medium">Ask Hammad Assistant</span>
+                                <span className="text-white/40 text-xs">Search for "{searchQuery}" using AI</span>
+                            </div>
+                        </button>
+                    </motion.div>
+                )}
+            </AnimatePresence>
 
             {/* Workspaces / Open Windows Preview */}
             <div className="w-full flex justify-center gap-8 mb-20 overflow-x-auto pb-4">

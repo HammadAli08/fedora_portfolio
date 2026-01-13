@@ -10,28 +10,9 @@ export const WindowManagerProvider = ({ children, onLogout }) => {
     const [isActivitiesOpen, setActivitiesOpen] = useState(false);
     const [zIndices, setZIndices] = useState({});
     const [wallpaper, setWallpaper] = useState({ id: 'fedora-default', type: 'image', value: '/fedora-wallpaper.jpg' });
-
-    const openApp = useCallback((appId, config = {}) => {
-        setOpenApps((prev) => {
-            if (prev.some(app => app.id === appId)) {
-                focusApp(appId);
-                return prev;
-            }
-            const newApp = {
-                id: appId,
-                isMinimized: false,
-                isMaximized: false,
-                ...config
-            };
-            return [...prev, newApp];
-        });
-        focusApp(appId);
-    }, []);
-
-    const closeApp = useCallback((appId) => {
-        setOpenApps((prev) => prev.filter(app => app.id !== appId));
-        if (activeApp === appId) setActiveApp(null);
-    }, [activeApp]);
+    const [chatMessages, setChatMessages] = useState([
+        { role: 'assistant', content: "Hello! I'm Hammad's Portfolio Assistant. How can I help you today?" }
+    ]);
 
     const focusApp = useCallback((appId) => {
         setActiveApp(appId);
@@ -40,6 +21,19 @@ export const WindowManagerProvider = ({ children, onLogout }) => {
             return { ...prev, [appId]: maxZ };
         });
     }, []);
+
+    const openApp = useCallback((appId, config = {}) => {
+        setOpenApps((prev) => {
+            if (prev.some(app => app.id === appId)) return prev;
+            return [...prev, { id: appId, isMinimized: false, isMaximized: false, ...config }];
+        });
+        focusApp(appId);
+    }, [focusApp]);
+
+    const closeApp = useCallback((appId) => {
+        setOpenApps((prev) => prev.filter(app => app.id !== appId));
+        if (activeApp === appId) setActiveApp(null);
+    }, [activeApp]);
 
     const toggleMinimize = useCallback((appId) => {
         setOpenApps((prev) => prev.map(app =>
@@ -76,7 +70,9 @@ export const WindowManagerProvider = ({ children, onLogout }) => {
         setActivitiesOpen,
         wallpaper,
         setWallpaper,
-        logout
+        logout,
+        chatMessages,
+        setChatMessages
     };
 
     return (
