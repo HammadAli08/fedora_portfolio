@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { PaperPlaneRight, ChatDots, User, Robot, CircleNotch } from 'phosphor-react';
 // import ReactMarkdown from 'react-markdown';
 import { useWindowManager } from '../context/WindowManager';
+import { processRAG } from '../services/aiService';
 
 const AssistantApp = () => {
     const { chatMessages, setChatMessages } = useWindowManager();
@@ -19,42 +20,15 @@ const AssistantApp = () => {
         const assistantMessageId = Date.now();
         setChatMessages(prev => [...prev, { role: 'assistant', content: '', id: assistantMessageId }]);
 
-        try {
-            // Replace with your actual Render backend URL
-            const backendUrl = import.meta.env.VITE_BACKEND_URL || 'https://portfolio-backend-hammad.onrender.com';
-            const response = await fetch(`${backendUrl}/api/chat`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ message: messageContent, stream: true })
-            });
-
-            if (!response.ok) throw new Error('Failed to connect to assistant');
-
-            const reader = response.body.getReader();
-            const decoder = new TextDecoder();
-            let fullResponse = '';
-
-            while (true) {
-                const { done, value } = await reader.read();
-                if (done) break;
-
-                const chunk = decoder.decode(value, { stream: true });
-                fullResponse += chunk;
-
-                setChatMessages(prev => prev.map(msg =>
-                    msg.id === assistantMessageId ? { ...msg, content: fullResponse } : msg
-                ));
-            }
-        } catch (error) {
-            console.error('Chat Error:', error);
+        let fullResponse = '';
+        await processRAG(messageContent, (chunk) => {
+            fullResponse += chunk;
             setChatMessages(prev => prev.map(msg =>
-                msg.id === assistantMessageId
-                    ? { ...msg, content: "I'm sorry, I'm having trouble connecting to my brain right now. Please try again later." }
-                    : msg
+                msg.id === assistantMessageId ? { ...msg, content: fullResponse } : msg
             ));
-        } finally {
-            setIsTyping(false);
-        }
+        });
+
+        setIsTyping(false);
     };
 
     useEffect(() => {
