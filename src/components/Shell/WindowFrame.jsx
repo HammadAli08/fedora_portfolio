@@ -31,7 +31,7 @@ const WindowFrame = ({ app, children }) => {
                         width: 800,
                         height: 600,
                     }}
-                    size={isMaximized ? { width: '100%', height: '100%' } : undefined}
+                    size={isMaximized ? { width: '100%', height: 'calc(100% - 90px)' } : undefined}
                     position={isMaximized ? { x: 0, y: 0 } : undefined}
                     disableDragging={isMaximized}
                     enableResizing={!isMaximized}
