@@ -1,0 +1,110 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --fedora-blue: #294172;
+  --fedora-blue-light: #51a2da;
+  --fedora-blue-dark: #2e61a5;
+  --gnome-dark: #1d1d1d;
+  --gnome-bg: #242424;
+  --gnome-surface: #353535;
+  --gnome-accent: #3584e4;
+
+  --primary: var(--fedora-blue);
+  --secondary: #f6f6f6;
+  --accent: var(--gnome-accent);
+  --dark: var(--gnome-dark);
+
+  --font-primary: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-primary);
+  background: var(--gnome-bg);
+  color: var(--secondary);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden;
+  /* Strict no scroll */
+  height: 100vh;
+  width: 100vw;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: -0.02em;
+}
+
+.glass-card {
+  background: rgba(45, 45, 45, 0.7);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.glass-card:hover {
+  transform: translateY(-4px);
+  border-color: var(--fedora-blue-light);
+  box-shadow: 0 10px 30px -10px rgba(81, 162, 218, 0.3);
+}
+
+.fedora-gradient {
+  background: linear-gradient(135deg, var(--fedora-blue-dark) 0%, var(--gnome-bg) 100%);
+}
+
+.top-bar {
+  background: rgba(30, 30, 30, 0.8);
+  backdrop-filter: blur(20px);
+  height: 48px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.gnome-button {
+  background: var(--fedora-blue);
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.gnome-button:hover {
+  background: var(--fedora-blue-light);
+  transform: translateY(-1px);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--gnome-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--gnome-surface);
+  border-radius: 5px;
+  border: 2px solid var(--gnome-bg);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--fedora-blue);
+}
