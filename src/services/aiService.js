@@ -1,4 +1,5 @@
-const API_BASE_URL = import.meta.env.VITE_API_URL || "https://portfolio-backend-hammad.onrender.com/api";
+const ENV_URL = import.meta.env.VITE_API_URL || "https://portfolio-backend-1lt5.onrender.com/api";
+const API_BASE_URL = ENV_URL.endsWith('/api') ? ENV_URL : `${ENV_URL}/api`;
 const WS_BASE_URL = API_BASE_URL.replace("http", "ws").replace("/api", "/ws/chat");
 
 export const processRAG = async (query, onChunk = null) => {
