@@ -6,10 +6,11 @@ import { useWindowManager } from '../context/WindowManager';
 import { processRAG } from '../services/aiService';
 
 const AssistantApp = () => {
-    const { chatMessages, setChatMessages } = useWindowManager();
+    const { chatMessages, setChatMessages, openApps } = useWindowManager();
     const [input, setInput] = useState('');
     const [isTyping, setIsTyping] = useState(false);
     const messagesEndRef = useRef(null);
+    const isMaximized = openApps.find(app => app.id === 'assistant')?.isMaximized;
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -50,7 +51,7 @@ const AssistantApp = () => {
     };
 
     return (
-        <div className="h-full flex flex-col bg-[#1e1e1e] text-white">
+        <div className={`h-full flex flex-col bg-[#1e1e1e] text-white transition-all duration-300 ${isMaximized ? 'pb-24' : ''}`}>
             {/* Messages Area */}
             <div className="flex-1 overflow-y-auto p-6 space-y-6">
                 <AnimatePresence initial={false}>
@@ -69,16 +70,22 @@ const AssistantApp = () => {
                                 ? 'bg-fedora-blue text-white rounded-tr-none shadow-lg'
                                 : 'bg-white/5 border border-white/5 rounded-tl-none'
                                 }`}>
-                                {/* <ReactMarkdown
-                                    className="prose prose-invert prose-sm max-w-none"
-                                    components={{
-                                        p: ({ children }) => <p className="mb-0">{children}</p>,
-                                        code: ({ children }) => <code className="bg-black/30 px-1 rounded text-fedora-blue-light">{children}</code>
-                                    }}
-                                >
-                                    {msg.content}
-                                </ReactMarkdown> */}
-                                <div className="whitespace-pre-wrap">{msg.content}</div>
+                                <div className="text-sm leading-relaxed whitespace-pre-wrap">
+                                    {msg.content.split('\n').map((line, i) => {
+                                        // Simple Bold Parsing
+                                        const parts = line.split(/(\*\*.*?\*\*)/g);
+                                        return (
+                                            <div key={i} className="min-h-[1.2em]">
+                                                {parts.map((part, j) => {
+                                                    if (part.startsWith('**') && part.endsWith('**')) {
+                                                        return <strong key={j} className="font-bold text-white">{part.slice(2, -2)}</strong>;
+                                                    }
+                                                    return part;
+                                                })}
+                                            </div>
+                                        );
+                                    })}
+                                </div>
                                 {msg.role === 'assistant' && msg.content === '' && (
                                     <CircleNotch size={14} className="animate-spin opacity-40" />
                                 )}
