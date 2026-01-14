@@ -19,7 +19,7 @@ const ActivitiesOverlay = () => {
     if (!isActivitiesOpen) return null;
 
     const handleAppClick = (appId) => {
-        focusApp(appId);
+        openApp(appId);
         setActivitiesOpen(false);
     };
 
@@ -78,9 +78,7 @@ const ActivitiesOverlay = () => {
                             className="w-full p-4 flex items-center gap-4 hover:bg-white/5 transition-colors text-left"
                         >
                             <div className="w-10 h-10 rounded-full bg-fedora-blue flex items-center justify-center text-white">
-                                <div className="w-10 h-10 rounded-full bg-fedora-blue flex items-center justify-center text-white">
-                                    <ChatDots size={20} weight="fill" />
-                                </div>
+                                <ChatDots size={20} weight="fill" />
                             </div>
                             <div className="flex flex-col">
                                 <span className="text-white font-medium">Ask Hammad Assistant</span>
