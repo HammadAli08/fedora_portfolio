@@ -24,7 +24,11 @@ export const WindowManagerProvider = ({ children, onLogout }) => {
 
     const openApp = useCallback((appId, config = {}) => {
         setOpenApps((prev) => {
-            if (prev.some(app => app.id === appId)) return prev;
+            const exists = prev.find(app => app.id === appId);
+            if (exists) {
+                // If minimized, restore it. If open, just return (focusApp handles the rest)
+                return prev.map(app => app.id === appId ? { ...app, isMinimized: false } : app);
+            }
             return [...prev, { id: appId, isMinimized: false, isMaximized: false, ...config }];
         });
         focusApp(appId);
