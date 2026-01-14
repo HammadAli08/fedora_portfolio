@@ -252,10 +252,9 @@ export const agentData = [
   }
   ,
   {
-    "project_name": "GitHub Intelligence Research Tool",
+    "project_name": "GitHub Intelligence & Research Tool",
     "repository": "https://github.com/HammadAli08/GitHub-Research-Agent",
     "live_demo": "https://github-research-agent.vercel.app/",
-    "notable_aspect": "Multi-agent research pipeline using LangGraph for deep repository technical analysis.",
     "status": "Active (Updated 4 hours ago)",
     "tech_stack": [
       "LangGraph (Directed Acyclic Graphs)",
@@ -265,7 +264,7 @@ export const agentData = [
       "GitHub REST API",
       "HTTPX"
     ],
-    "features": [
+    "key_features": [
       "Multi-Agent Research Pipeline with specialized AI agents",
       "Parallel analysis of code structure, technical debt, and maintenance health",
       "Smart repository discovery by keyword, URL, or owner/repo patterns",
@@ -324,8 +323,6 @@ export const agentData = [
     "project_name": "Loan Approval Prediction System",
     "repository": "https://github.com/HammadAli08/Loan_Approval_Prediction",
     "accuracy": "> 90% on test set",
-    "live_demo": "https://loanapprovalprediction.azurewebsites.net",
-    "notable_aspect": "End-to-end ML pipeline with Docker containerization and Azure CI/CD integration.",
     "type": "End-to-end Machine Learning Project",
     "features": [
       "Complete ML pipeline with data ingestion, transformation, and training",
@@ -383,7 +380,7 @@ export const agentData = [
   {
     "name": "Hammad Ali Tahir",
     "title": "AI & Machine Learning Engineer | The Agent Architect",
-    "location": "Lahore, Pakistan (Sheikhupura District, Punjab)",
+    "location": "Lahore, Pakistan (Originally from Sheikhupura District, Punjab)",
     "education": {
       "degree": "Bachelor of Science - BS, Computer Science",
       "institution": "University of Education, Lahore",
@@ -403,9 +400,10 @@ export const agentData = [
       "email": "hammadalitahir8@gmail.com",
       "phone": "+92 333 4247884",
       "linkedin": "https://www.linkedin.com/in/hammad-ali08/",
-      "github": "https://github.com/HammadAli08"
+      "github": "https://github.com/HammadAli08",
+      "personal_website": "hammadalit-iahir-hywb9z.gamma.site/"
     },
-    "philosophy": "Engineering the Agentic Shift: Bridging Probabilistic Cognition and Deterministic Logic.",
+    "philosophy": "AI = Logic + Data + Imagination",
     "specialization": "Designing Intelligent Agentic Workflows that combine probabilistic cognition with deterministic logic",
     "fun_fact": "I love analyzing cricket bowling stats using time-series anomaly detection!"
   }

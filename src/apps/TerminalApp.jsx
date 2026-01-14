@@ -43,7 +43,7 @@ const TerminalApp = () => {
             `User: ${personalInfo.name}`,
             `Title: ${personalInfo.title}`,
             `Philosophy: ${personalInfo.philosophy}`,
-            `Role: ${personalInfo.role}`
+            `Role: AI/ML Engineer`
         ],
         ls: () => [
             'about_me.txt',
