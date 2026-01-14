@@ -1,7 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { agentData } from '../data/agentData';
 
+import { useWindowManager } from '../context/WindowManager';
+
 const TerminalApp = () => {
+    const { openApp } = useWindowManager();
     const [history, setHistory] = useState([
         { type: 'output', content: 'Fedora Workstation 42 (Custom Portfolio Kernel)' },
         { type: 'output', content: 'Welcome hammad@fedora: ~ (Type "help" for commands)' },
@@ -27,7 +30,14 @@ const TerminalApp = () => {
             '  cat [file]- Display content of a file',
             '  whoami    - Display bio & credentials',
             '  skills    - Display technical arsenal',
-            '  clear     - Clear terminal history'
+            '  clear     - Clear terminal history',
+            '',
+            'Applications:',
+            '  assistant - Open AI Assistant',
+            '  about     - Open About Me',
+            '  projects  - Open Projects Gallery',
+            '  resume    - Open Resume',
+            '  settings  - Open Settings'
         ],
         whoami: () => [
             `User: ${personalInfo.name}`,
@@ -56,6 +66,27 @@ const TerminalApp = () => {
         clear: () => {
             setHistory([]);
             return [];
+        },
+        // App Commands
+        assistant: () => {
+            openApp('assistant');
+            return ['Launching Assistant...'];
+        },
+        about: () => {
+            openApp('about');
+            return ['Launching About Me...'];
+        },
+        projects: () => {
+            openApp('projects');
+            return ['Opening Projects Gallery...'];
+        },
+        resume: () => {
+            openApp('resume');
+            return ['Opening Resume...'];
+        },
+        settings: () => {
+            openApp('settings');
+            return ['Launching Settings...'];
         }
     };
 
