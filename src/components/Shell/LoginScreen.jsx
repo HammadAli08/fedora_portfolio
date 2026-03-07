@@ -73,7 +73,7 @@ const LoginScreen = ({ onLogin }) => {
 
     return (
         <div className="fixed inset-0 z-[5000] bg-cover bg-center flex flex-col items-center justify-between py-12 text-white select-none overflow-hidden"
-            style={{ backgroundImage: 'url("/fedora-wallpaper.jpg")' }}>
+            style={{ backgroundImage: 'url("/Wallpaper%202.jpg")' }}>
 
             {/* Blurring Overlay */}
             <div className="absolute inset-0 bg-[#242424]/60 backdrop-blur-xl z-0" />

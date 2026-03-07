@@ -42,6 +42,7 @@ const TopBar = () => {
         <div className="fixed top-0 left-0 right-0 h-8 bg-black/80 backdrop-blur-md z-[1000] flex items-center justify-between px-3 text-xs font-medium text-white select-none">
             {/* Activities Button */}
             <div className="flex items-center gap-2 h-full">
+                <img src="/Logo.png" alt="Logo" className="h-4 w-4 object-contain" />
                 <button
                     onClick={toggleActivities}
                     className={`px-3 h-[85%] rounded transition-colors ${isActivitiesOpen ? 'bg-white/15' : 'hover:bg-white/10'

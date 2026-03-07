@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { agentData } from '../data/agentData';
 import { Folder, FileText, Code, CaretRight, GithubLogo, Globe, Scales, Compass, GraduationCap, Bank, Robot } from 'phosphor-react';
+import { useNotifications } from '../context/NotificationContext';
 
 const projectIcons = {
     'AI-Powered Legal Case Management System': Scales,
@@ -14,6 +15,17 @@ const projectIcons = {
 const ProjectsApp = () => {
     const [selectedProject, setSelectedProject] = useState(null);
     const projects = agentData.filter(d => d.project_name);
+    const { notify } = useNotifications();
+
+    useEffect(() => {
+        notify({
+            title: '📁 Projects Loaded',
+            body: `${projects.length} projects available — including the latest AI Academic Assistant!`,
+            icon: 'projects',
+            type: 'info',
+            duration: 3500,
+        });
+    }, []);
 
     return (
         <div className="flex h-full bg-[#1e1e1e] text-white">

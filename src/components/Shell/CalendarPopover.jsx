@@ -1,25 +1,60 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { CaretLeft, CaretRight, BellSlash } from 'phosphor-react';
+import { CaretLeft, CaretRight, BellSlash, Bell, Trash, HandWaving, Robot, Folder, Compass, Terminal as TerminalIcon, FilePdf, Gear, User, Info, RocketLaunch } from 'phosphor-react';
+import { useNotifications } from '../../context/NotificationContext';
+
+const notifIconMap = {
+    welcome: HandWaving,
+    guide: Compass,
+    assistant: Robot,
+    projects: Folder,
+    terminal: TerminalIcon,
+    resume: FilePdf,
+    settings: Gear,
+    about: User,
+    info: Info,
+    rocket: RocketLaunch,
+    bell: Bell,
+};
 
 const CalendarPopover = ({ isOpen, onClose }) => {
+    const { history, clearHistory } = useNotifications();
+    const [calendarDate, setCalendarDate] = useState(new Date());
     const today = new Date();
-    const monthName = today.toLocaleString('default', { month: 'long' });
-    const year = today.getFullYear();
 
-    // Helper to get days in month
+    const monthName = calendarDate.toLocaleString('default', { month: 'long' });
+    const year = calendarDate.getFullYear();
+
     const getDaysInMonth = (month, year) => new Date(year, month + 1, 0).getDate();
-    const firstDayOfMonth = new Date(today.getFullYear(), today.getMonth(), 1).getDay();
-    const daysInMonth = getDaysInMonth(today.getMonth(), today.getFullYear());
+    const firstDayOfMonth = new Date(calendarDate.getFullYear(), calendarDate.getMonth(), 1).getDay();
+    const daysInMonth = getDaysInMonth(calendarDate.getMonth(), calendarDate.getFullYear());
 
     const days = [];
-    // Padding for first week
     for (let i = 0; i < firstDayOfMonth; i++) {
         days.push(null);
     }
     for (let i = 1; i <= daysInMonth; i++) {
         days.push(i);
     }
+
+    const goToPrevMonth = () => {
+        setCalendarDate(prev => new Date(prev.getFullYear(), prev.getMonth() - 1, 1));
+    };
+
+    const goToNextMonth = () => {
+        setCalendarDate(prev => new Date(prev.getFullYear(), prev.getMonth() + 1, 1));
+    };
+
+    const isToday = (day) => {
+        return day === today.getDate()
+            && calendarDate.getMonth() === today.getMonth()
+            && calendarDate.getFullYear() === today.getFullYear();
+    };
+
+    const formatTime = (date) => {
+        const d = new Date(date);
+        return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', hour12: true });
+    };
 
     if (!isOpen) return null;
 
@@ -36,16 +71,54 @@ const CalendarPopover = ({ isOpen, onClose }) => {
                 onClick={(e) => e.stopPropagation()}
             >
                 {/* Notifications Area (GNOME style) */}
-                <div className="w-1/2 border-r border-white/5 p-6 flex flex-col items-center justify-center text-center space-y-4">
-                    <div className="w-16 h-16 bg-white/5 rounded-full flex items-center justify-center text-white/20">
-                        <BellSlash size={32} weight="bold" />
+                <div className="w-1/2 border-r border-white/5 p-4 flex flex-col overflow-hidden">
+                    <div className="flex items-center justify-between mb-3">
+                        <h3 className="text-[10px] font-black uppercase tracking-widest text-white/40">Notifications</h3>
+                        {history.length > 0 && (
+                            <button
+                                onClick={clearHistory}
+                                className="text-white/30 hover:text-white/60 transition-colors"
+                                title="Clear all"
+                            >
+                                <Trash size={14} weight="bold" />
+                            </button>
+                        )}
                     </div>
-                    <div className="space-y-1">
-                        <h3 className="text-sm font-bold text-white/80">No Notifications</h3>
-                        <p className="text-[10px] text-white/40 leading-tight px-4">
-                            All caught up! You'll see system alerts and messages here.
-                        </p>
-                    </div>
+
+                    {history.length === 0 ? (
+                        <div className="flex-1 flex flex-col items-center justify-center text-center space-y-3">
+                            <div className="w-14 h-14 bg-white/5 rounded-full flex items-center justify-center text-white/20">
+                                <BellSlash size={28} weight="bold" />
+                            </div>
+                            <div className="space-y-1">
+                                <h3 className="text-xs font-bold text-white/60">No Notifications</h3>
+                                <p className="text-[10px] text-white/30 leading-tight px-2">
+                                    All caught up!
+                                </p>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex-1 overflow-y-auto space-y-2 custom-scrollbar pr-1">
+                            {history.map((notif) => {
+                                const NIcon = notifIconMap[notif.icon] || Bell;
+                                return (
+                                    <div
+                                        key={notif.id}
+                                        className="flex items-start gap-2.5 p-2.5 rounded-xl bg-white/5 hover:bg-white/8 transition-colors"
+                                    >
+                                        <div className="w-7 h-7 rounded-lg bg-fedora-blue/15 flex items-center justify-center shrink-0 mt-0.5">
+                                            <NIcon size={13} weight="fill" className="text-fedora-blue-light" />
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                            <p className="text-[11px] font-bold text-white/80 truncate">{notif.title}</p>
+                                            <p className="text-[10px] text-white/40 leading-snug mt-0.5 line-clamp-2">{notif.body}</p>
+                                            <span className="text-[9px] text-white/20 mt-1 block">{formatTime(notif.timestamp)}</span>
+                                        </div>
+                                    </div>
+                                );
+                            })}
+                        </div>
+                    )}
                 </div>
 
                 {/* Calendar Area */}
@@ -55,10 +128,10 @@ const CalendarPopover = ({ isOpen, onClose }) => {
                             {monthName} {year}
                         </h2>
                         <div className="flex gap-2">
-                            <button className="p-1 hover:bg-white/10 rounded transition-colors">
+                            <button onClick={goToPrevMonth} className="p-1 hover:bg-white/10 rounded transition-colors">
                                 <CaretLeft size={16} weight="bold" />
                             </button>
-                            <button className="p-1 hover:bg-white/10 rounded transition-colors">
+                            <button onClick={goToNextMonth} className="p-1 hover:bg-white/10 rounded transition-colors">
                                 <CaretRight size={16} weight="bold" />
                             </button>
                         </div>
@@ -75,7 +148,7 @@ const CalendarPopover = ({ isOpen, onClose }) => {
                             <div key={i} className="h-8 flex items-center justify-center relative">
                                 {day && (
                                     <button
-                                        className={`w-7 h-7 flex items-center justify-center rounded-full text-[11px] font-bold transition-all ${day === today.getDate()
+                                        className={`w-7 h-7 flex items-center justify-center rounded-full text-[11px] font-bold transition-all ${isToday(day)
                                             ? 'bg-fedora-blue text-white shadow-lg shadow-fedora-blue/40 ring-2 ring-white/20'
                                             : 'text-white/70 hover:bg-white/10 hover:text-white'
                                             }`}

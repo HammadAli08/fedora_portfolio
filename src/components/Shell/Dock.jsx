@@ -8,7 +8,8 @@ import {
     Gear,
     User,
     SquaresFour,
-    ChatDots
+    ChatDots,
+    ChartBar
 } from 'phosphor-react';
 
 const DockItem = ({ icon: Icon, label, appId, onClick }) => {
@@ -49,6 +50,7 @@ const Dock = () => {
         { id: 'assistant', label: 'Assistant', icon: ChatDots },
         { id: 'about', label: 'About Me', icon: User },
         { id: 'projects', label: 'Projects', icon: Files },
+        { id: 'skills', label: 'Skills', icon: ChartBar },
         { id: 'terminal', label: 'Terminal', icon: Terminal },
         { id: 'resume', label: 'Resume', icon: FilePdf },
         { id: 'settings', label: 'Settings', icon: Gear },

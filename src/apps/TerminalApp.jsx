@@ -26,6 +26,7 @@ const TerminalApp = () => {
         help: () => [
             'Available commands:',
             '  help      - Show this help message',
+            '  neofetch  - Display system info card',
             '  ls        - List project directories',
             '  cat [file]- Display content of a file',
             '  whoami    - Display bio & credentials',
@@ -36,9 +37,36 @@ const TerminalApp = () => {
             '  assistant - Open AI Assistant',
             '  about     - Open About Me',
             '  projects  - Open Projects Gallery',
+            '  skills    - Open Skills Dashboard',
             '  resume    - Open Resume',
             '  settings  - Open Settings'
         ],
+        neofetch: () => {
+            const ml = agentData.find(d => d.machine_learning_frameworks)?.machine_learning_frameworks || [];
+            const projects = agentData.filter(d => d.project_name);
+            return [
+                '',
+                '        ⬡⬡⬡⬡⬡        hammad@fedora',
+                '      ⬡⬡⬡⬡⬡⬡⬡⬡      ─────────────────────────',
+                '    ⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡    OS: HammadOS (Fedora 43)',
+                '   ⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡   Host: Portfolio v2.0',
+                '  ⬡⬡⬡⬡⬡  ⬡⬡  ⬡⬡⬡⬡⬡  Kernel: React 18 + Vite',
+                '  ⬡⬡⬡⬡⬡      ⬡⬡⬡⬡⬡  DE: GNOME 49 / Libadwaita',
+                '  ⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡  WM: WindowManager.jsx',
+                '  ⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡  Shell: Tailwind CSS',
+                '   ⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡   Terminal: TerminalApp',
+                '    ⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡⬡    ─────────────────────────',
+                `      ⬡⬡⬡⬡⬡⬡⬡⬡      User: ${personalInfo.name}`,
+                `        ⬡⬡⬡⬡⬡        Title: ${personalInfo.title}`,
+                `                       Projects: ${projects.length}`,
+                `                       ML Stack: ${ml.slice(0, 4).join(', ')}`,
+                `                       Focus: Agentic AI & RAG`,
+                `                       Philosophy: ${personalInfo.philosophy}`,
+                '',
+                '  ■ ■ ■ ■ ■ ■ ■ ■    (color palette)',
+                '',
+            ];
+        },
         whoami: () => [
             `User: ${personalInfo.name}`,
             `Title: ${personalInfo.title}`,
@@ -83,6 +111,10 @@ const TerminalApp = () => {
         resume: () => {
             openApp('resume');
             return ['Opening Resume...'];
+        },
+        skills: () => {
+            openApp('skills');
+            return ['Launching Skills Dashboard...'];
         },
         settings: () => {
             openApp('settings');
