@@ -2,9 +2,11 @@ import React, { useState, useRef, useEffect } from 'react';
 import { agentData } from '../data/agentData';
 
 import { useWindowManager } from '../context/WindowManager';
+import { useNotifications } from '../context/NotificationContext';
 
 const TerminalApp = () => {
     const { openApp } = useWindowManager();
+    const { notify } = useNotifications();
     const [history, setHistory] = useState([
         { type: 'output', content: 'Fedora Workstation 42 (Custom Portfolio Kernel)' },
         { type: 'output', content: 'Welcome hammad@fedora: ~ (Type "help" for commands)' },
@@ -12,6 +14,7 @@ const TerminalApp = () => {
     const [input, setInput] = useState('');
     const scrollRef = useRef(null);
     const inputRef = useRef(null);
+    const hasTipped = useRef(false);
 
     useEffect(() => {
         if (scrollRef.current) {
@@ -19,6 +22,54 @@ const TerminalApp = () => {
         }
         inputRef.current?.focus();
     }, [history]);
+
+    // Show terminal tips once when the terminal is first opened
+    useEffect(() => {
+        if (hasTipped.current) return;
+        hasTipped.current = true;
+
+        const tips = [
+            {
+                delay: 500,
+                notification: {
+                    title: '💡 Tip: "help"',
+                    body: 'Type "help" to see all available commands and app launchers.',
+                    icon: 'terminal',
+                    type: 'guide',
+                    duration: 4000,
+                    app: 'terminal',
+                },
+            },
+            {
+                delay: 3500,
+                notification: {
+                    title: '💡 Tip: "neofetch"',
+                    body: 'Run "neofetch" to see a system info card with Hammad\'s profile and tech stack.',
+                    icon: 'terminal',
+                    type: 'guide',
+                    duration: 4000,
+                    app: 'terminal',
+                },
+            },
+            {
+                delay: 6500,
+                notification: {
+                    title: '💡 Tip: Browse & Launch',
+                    body: 'Try "ls" and "cat about_me.txt", or type app names like "assistant" or "projects" to open them.',
+                    icon: 'terminal',
+                    type: 'guide',
+                    duration: 5000,
+                    app: 'terminal',
+                },
+            },
+        ];
+
+        const timers = tips.map(({ delay, notification }) =>
+            setTimeout(() => notify(notification), delay)
+        );
+
+        return () => timers.forEach(clearTimeout);
+    }, [notify]);
 
     const personalInfo = agentData.find(d => d.name === "Hammad Ali Tahir");
 
