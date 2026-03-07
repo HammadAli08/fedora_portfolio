@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { agentData } from '../data/agentData';
-import { Folder, FileText, Code, CaretRight, GithubLogo, Globe } from 'phosphor-react';
+import { Folder, FileText, Code, CaretRight, GithubLogo, Globe, Scales, Compass, GraduationCap, Bank, Robot } from 'phosphor-react';
+
+const projectIcons = {
+    'AI-Powered Legal Case Management System': Scales,
+    'Career Pathfinder AI': Compass,
+    'GitHub Intelligence & Research Tool': GithubLogo,
+    'AI-Based Academic & Regulations Assistant for UOE': GraduationCap,
+    'Loan Approval Prediction System': Bank,
+};
 
 const ProjectsApp = () => {
     const [selectedProject, setSelectedProject] = useState(null);
@@ -23,7 +31,9 @@ const ProjectsApp = () => {
             {/* Main Content (File Grid) */}
             <div className="flex-1 p-6 overflow-y-auto">
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                    {projects.map((project) => (
+                    {projects.map((project) => {
+                        const IconComponent = projectIcons[project.project_name] || Robot;
+                        return (
                         <div
                             key={project.project_name}
                             onClick={() => setSelectedProject(project)}
@@ -36,7 +46,7 @@ const ProjectsApp = () => {
                                 ? 'bg-white/20'
                                 : 'bg-fedora-blue/10 group-hover:bg-fedora-blue/20'
                                 }`}>
-                                <Code size={32} weight="bold" className={
+                                <IconComponent size={32} weight="fill" className={
                                     selectedProject?.project_name === project.project_name
                                         ? 'text-white'
                                         : 'text-fedora-blue-light'
@@ -46,7 +56,8 @@ const ProjectsApp = () => {
                                 {project.project_name}
                             </span>
                         </div>
-                    ))}
+                        );
+                    })}
                 </div>
             </div>
 

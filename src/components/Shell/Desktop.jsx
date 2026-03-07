@@ -41,8 +41,9 @@ const Desktop = () => {
         <div
             className="absolute top-8 left-0 right-0 bottom-0 overflow-hidden bg-cover bg-center transition-all duration-700"
             style={{
-                backgroundImage: wallpaper.type === 'image' ? `url("${wallpaper.value}")` : 'none',
-                background: wallpaper.type === 'gradient' ? `linear-gradient(135deg, ${wallpaper.value})` : undefined
+                background: wallpaper.type === 'image'
+                    ? `url("${encodeURI(wallpaper.value)}") center/cover no-repeat`
+                    : `linear-gradient(135deg, ${wallpaper.value})`
             }}
             onContextMenu={handleContextMenu}
             onClick={closeContextMenu}

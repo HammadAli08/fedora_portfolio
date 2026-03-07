@@ -8,6 +8,11 @@ const SettingsApp = () => {
 
     const wallpapers = [
         { id: 'fedora-default', name: 'Fedora 43 Default', type: 'image', value: '/fedora-wallpaper.jpg' },
+        { id: 'wallpaper-1', name: 'Wallpaper 1', type: 'image', value: '/Wallpaper 1.jpg' },
+        { id: 'wallpaper-2', name: 'Wallpaper 2', type: 'image', value: '/Wallpaper 2.jpg' },
+        { id: 'wallpaper-3', name: 'Wallpaper 3', type: 'image', value: '/Wallpaper 3.jpg' },
+        { id: 'wallpaper-4', name: 'Wallpaper 4', type: 'image', value: '/Wallpaper 4.jpg' },
+        { id: 'wallpaper-5', name: 'Wallpaper 5', type: 'image', value: '/wallpaper 5.jpg' },
         { id: 'oceanic', name: 'Oceanic Blue', type: 'gradient', value: '#1a365d, #0f172a' },
         { id: 'crimson', name: 'Crimson Night', type: 'gradient', value: '#450a0a, #18181b' },
         { id: 'emerald', name: 'Emerald Forest', type: 'gradient', value: '#064e3b, #020617' },
@@ -54,10 +59,11 @@ const SettingsApp = () => {
                                             } overflow-hidden`}
                                     >
                                         <div
-                                            className="w-full h-full bg-cover bg-center"
+                                            className="w-full h-full"
                                             style={{
-                                                backgroundImage: wp.type === 'image' ? `url("${wp.value}")` : 'none',
-                                                background: wp.type === 'gradient' ? `linear-gradient(135deg, ${wp.value})` : undefined
+                                                background: wp.type === 'image'
+                                                    ? `url("${encodeURI(wp.value)}") center/cover no-repeat`
+                                                    : `linear-gradient(135deg, ${wp.value})`
                                             }}
                                         />
                                         <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 flex items-center justify-center transition-opacity">

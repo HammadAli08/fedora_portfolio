@@ -293,6 +293,45 @@ export const agentData = [
   }
   ,
   {
+    "project_name": "AI-Based Academic & Regulations Assistant for UOE",
+    "live_demo": "https://uoe-ai-assistant.vercel.app/",
+    "description": "A full-stack AI-powered academic chatbot serving the University of Education, Lahore, with a self-correcting RAG pipeline across 3 institutional knowledge bases.",
+    "features": [
+      "100+ production queries logged via LangSmith tracing with documented user satisfaction scores of 1.0",
+      "Smart RAG loop with query rewriting, chunk grading, and multi-retry retrieval",
+      "3 institutional knowledge bases covering BS/ADP, MS/PhD, and university regulations",
+      "Real-time Server-Sent Events (SSE) streaming with ChatGPT-like conversational UX",
+      "Source attribution and relevance scoring for every response",
+      "Configurable pipeline controls (query enhancement, reranking, Smart RAG)",
+      "Responsive mobile-first PWA design with Zustand state management",
+      "Session-aware conversation memory via Redis Cloud",
+      "HuggingFace cross-encoder reranking for improved retrieval accuracy",
+      "Modular pipeline architecture supporting both streaming and non-streaming inference"
+    ],
+    "tech_stack": [
+      "React",
+      "Vite",
+      "Zustand",
+      "FastAPI",
+      "Pinecone",
+      "OpenAI GPT-4o-mini",
+      "LangChain",
+      "LangSmith",
+      "HuggingFace Cross-Encoder",
+      "Redis Cloud",
+      "Server-Sent Events (SSE)",
+      "Vercel"
+    ],
+    "architecture": {
+      "frontend": "React + Vite PWA with real-time SSE streaming and Zustand state management",
+      "backend": "Scalable FastAPI backend with modular RAG pipeline architecture",
+      "retrieval": "Retrieval-Augmented Generation (RAG) pipeline with Pinecone vector search and self-correcting Smart RAG loop",
+      "knowledge_bases": ["BS/ADP Programs", "MS/PhD Programs", "University Regulations"]
+    },
+    "notable_aspect": "Production-grade RAG chatbot with self-correcting Smart RAG loop, LangSmith tracing, and 1.0 user satisfaction scores serving the University of Education, Lahore."
+  }
+  ,
+  {
     "learning_progression": {
       "foundations": {
         "timeframe": "Early 2024",

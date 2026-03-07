@@ -9,7 +9,7 @@ export const WindowManagerProvider = ({ children, onLogout }) => {
     const [activeApp, setActiveApp] = useState(null);
     const [isActivitiesOpen, setActivitiesOpen] = useState(false);
     const [zIndices, setZIndices] = useState({});
-    const [wallpaper, setWallpaper] = useState({ id: 'fedora-default', type: 'image', value: '/fedora-wallpaper.jpg' });
+    const [wallpaper, setWallpaper] = useState({ id: 'wallpaper-2', type: 'image', value: '/Wallpaper 2.jpg' });
     const [chatMessages, setChatMessages] = useState([
         { role: 'assistant', content: "Hello! I'm Hammad's Portfolio Assistant. How can I help you today?" }
     ]);
