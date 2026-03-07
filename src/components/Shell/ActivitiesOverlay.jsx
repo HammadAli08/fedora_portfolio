@@ -10,6 +10,7 @@ const appMetadata = {
     resume: { title: 'Resume' },
     settings: { title: 'Settings' },
     assistant: { title: 'Assistant' },
+    help: { title: 'Help & Guide' },
 };
 
 const ActivitiesOverlay = () => {

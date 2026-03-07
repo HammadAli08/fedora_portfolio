@@ -9,7 +9,8 @@ import {
     User,
     SquaresFour,
     ChatDots,
-    ChartBar
+    ChartBar,
+    Question
 } from 'phosphor-react';
 
 const DockItem = ({ icon: Icon, label, appId, onClick }) => {
@@ -54,6 +55,7 @@ const Dock = () => {
         { id: 'terminal', label: 'Terminal', icon: Terminal },
         { id: 'resume', label: 'Resume', icon: FilePdf },
         { id: 'settings', label: 'Settings', icon: Gear },
+        { id: 'help', label: 'Help & Guide', icon: Question },
     ];
 
     return (

@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Image, Gear, TerminalWindow, Folder } from 'phosphor-react';
+import { Image, Gear, TerminalWindow, Folder, Question } from 'phosphor-react';
 import { useWindowManager } from '../../context/WindowManager';
 
 const ContextMenu = ({ x, y, isOpen, onClose }) => {
@@ -71,6 +71,15 @@ const ContextMenu = ({ x, y, isOpen, onClose }) => {
                     className="px-4 py-2 text-left text-sm text-white hover:bg-[#3584e4] transition-colors flex items-center gap-3"
                 >
                     <Gear size={18} /> Display Settings
+                </button>
+
+                <div className="h-[1px] bg-white/10 my-1 mx-2" />
+
+                <button
+                    onClick={() => handleAction(() => openApp('help'))}
+                    className="px-4 py-2 text-left text-sm text-white hover:bg-[#3584e4] transition-colors flex items-center gap-3"
+                >
+                    <Question size={18} /> Help & Guide
                 </button>
             </motion.div>
         </AnimatePresence>

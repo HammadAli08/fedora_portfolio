@@ -1,4 +1,4 @@
-import React, { Suspense, lazy, useState } from 'react';
+import React, { Suspense, lazy, useState, useEffect, useRef } from 'react';
 import { useWindowManager } from '../../context/WindowManager';
 import WindowFrame from './WindowFrame';
 import ContextMenu from './ContextMenu';
@@ -11,6 +11,7 @@ const ResumeApp = lazy(() => import('../../apps/ResumeApp'));
 const SettingsApp = lazy(() => import('../../apps/SettingsApp'));
 const AssistantApp = lazy(() => import('../../apps/AssistantApp'));
 const SkillsApp = lazy(() => import('../../apps/SkillsApp'));
+const HelpApp = lazy(() => import('../../apps/HelpApp'));
 
 const appMap = {
     about: { title: 'About Me', component: AboutApp },
@@ -20,11 +21,21 @@ const appMap = {
     settings: { title: 'Settings', component: SettingsApp },
     assistant: { title: 'Assistant', component: AssistantApp },
     skills: { title: 'Skills', component: SkillsApp },
+    help: { title: 'Help & Guide', component: HelpApp },
 };
 
 const Desktop = () => {
-    const { openApps, wallpaper } = useWindowManager();
+    const { openApps, wallpaper, openApp } = useWindowManager();
     const [contextMenu, setContextMenu] = useState({ isOpen: false, x: 0, y: 0 });
+    const hasOpened = useRef(false);
+
+    // Auto-open Help & Guide on first login
+    useEffect(() => {
+        if (hasOpened.current) return;
+        hasOpened.current = true;
+        const timer = setTimeout(() => openApp('help'), 500);
+        return () => clearTimeout(timer);
+    }, [openApp]);
 
     const handleContextMenu = (e) => {
         e.preventDefault();

@@ -13,13 +13,12 @@ const TerminalApp = () => {
     ]);
     const [input, setInput] = useState('');
     const scrollRef = useRef(null);
+    const bottomRef = useRef(null);
     const inputRef = useRef(null);
     const hasTipped = useRef(false);
 
     useEffect(() => {
-        if (scrollRef.current) {
-            scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-        }
+        bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
         inputRef.current?.focus();
     }, [history]);
 
@@ -89,7 +88,8 @@ const TerminalApp = () => {
             '  projects  - Open Projects Gallery',
             '  skills    - Open Skills Dashboard',
             '  resume    - Open Resume',
-            '  settings  - Open Settings'
+            '  settings  - Open Settings',
+            '  guide     - Open Help & Guide'
         ],
         neofetch: () => {
             const ml = agentData.find(d => d.machine_learning_frameworks)?.machine_learning_frameworks || [];
@@ -164,6 +164,10 @@ const TerminalApp = () => {
         settings: () => {
             openApp('settings');
             return ['Launching Settings...'];
+        },
+        guide: () => {
+            openApp('help');
+            return ['Opening Help & Guide...'];
         }
     };
 
@@ -188,31 +192,51 @@ const TerminalApp = () => {
 
     return (
         <div
-            className="h-full bg-[#1e1e1e] p-4 font-mono text-sm overflow-y-auto custom-scrollbar"
+            className="relative h-full font-mono text-sm overflow-y-auto custom-scrollbar"
             ref={scrollRef}
             onClick={() => inputRef.current?.focus()}
+            style={{ backgroundColor: '#0d1117', scrollBehavior: 'smooth' }}
         >
-            <div className="space-y-1">
+            {/* Subtle gradient glow — pure CSS, no animation overhead */}
+            <div className="pointer-events-none absolute inset-0">
+                <div className="absolute -top-20 -left-20 w-72 h-72 bg-[#3584e4]/[0.06] rounded-full blur-[100px]" />
+                <div className="absolute -bottom-20 -right-20 w-60 h-60 bg-[#8b5cf6]/[0.05] rounded-full blur-[100px]" />
+            </div>
+
+            {/* Scanline overlay — lightweight CSS pattern */}
+            <div
+                className="pointer-events-none absolute inset-0 opacity-[0.03]"
+                style={{
+                    backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,255,255,0.04) 2px, rgba(255,255,255,0.04) 4px)',
+                }}
+            />
+
+            <div className="relative z-10 p-4 space-y-1">
                 {history.map((line, i) => (
                     <div
                         key={i}
-                        className={line.type === 'input' ? 'text-fedora-blue-light' : 'text-secondary/80'}
+                        className={
+                            line.type === 'input'
+                                ? 'text-[#58a6ff]'
+                                : 'text-[#8b949e]'
+                        }
                     >
                         {line.content}
                     </div>
                 ))}
 
                 <form onSubmit={handleSubmit} className="flex items-center gap-2">
-                    <span className="text-[#34d399]">[hammad@fedora ~]$</span>
+                    <span className="text-[#3fb950]">[hammad@fedora ~]$</span>
                     <input
                         ref={inputRef}
                         type="text"
                         value={input}
                         onChange={(e) => setInput(e.target.value)}
-                        className="flex-1 bg-transparent border-none outline-none text-white focus:ring-0 p-0"
+                        className="flex-1 bg-transparent border-none outline-none text-[#e6edf3] focus:ring-0 p-0 caret-[#3fb950]"
                         autoFocus
                     />
                 </form>
+                <div ref={bottomRef} />
             </div>
         </div>
     );

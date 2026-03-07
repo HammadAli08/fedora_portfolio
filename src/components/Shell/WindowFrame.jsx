@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import { Rnd } from 'react-rnd';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useWindowManager } from '../../context/WindowManager';
@@ -16,6 +16,8 @@ const WindowFrame = ({ app, children }) => {
 
     const isActive = activeApp === app.id;
     const isMaximized = app.isMaximized;
+    const [isDragging, setIsDragging] = useState(false);
+    const [isResizing, setIsResizing] = useState(false);
 
     const handleFocus = () => {
         if (!isActive) focusApp(app.id);
@@ -38,14 +40,15 @@ const WindowFrame = ({ app, children }) => {
                     minWidth={400}
                     minHeight={300}
                     bounds="parent"
-                    onDragStart={handleFocus}
-                    onResizeStart={handleFocus}
+                    onDragStart={() => { handleFocus(); setIsDragging(true); }}
+                    onDragStop={() => setIsDragging(false)}
+                    onResizeStart={() => { handleFocus(); setIsResizing(true); }}
+                    onResizeStop={() => setIsResizing(false)}
                     style={{ zIndex: zIndices[app.id] ?? 1 }}
                     dragHandleClassName="header-bar"
-                    className="window-rnd transition-all duration-300 ease-in-out"
+                    className={`window-rnd ${isDragging || isResizing ? '' : 'transition-[width,height] duration-300 ease-in-out'}`}
                 >
                     <motion.div
-                        layout
                         initial={{ opacity: 0, scale: 0.95, y: 20 }}
                         animate={{
                             opacity: 1,
@@ -58,14 +61,13 @@ const WindowFrame = ({ app, children }) => {
                             type: 'spring',
                             damping: 30,
                             stiffness: 300,
-                            layout: { duration: 0.3 }
                         }}
                         className={`flex flex-col h-full bg-[#242424] overflow-hidden border-[#383838] shadow-2xl transition-shadow ${isMaximized ? 'border-0 shadow-none' : 'border rounded-xl'
                             } ${isActive ? 'ring-1 ring-white/10' : 'opacity-95'}`}
                         onClick={handleFocus}
                     >
                         {/* Header Bar (Libadwaita style) */}
-                        <div className={`header-bar h-12 bg-[#303030] flex items-center justify-between px-4 select-none cursor-default active:cursor-grabbing transition-all ${isMaximized ? 'rounded-none border-b border-black/40' : 'rounded-t-xl'
+                        <div className={`header-bar h-12 bg-[#303030] flex items-center justify-between px-4 select-none ${isDragging ? 'cursor-grabbing' : 'cursor-grab'} transition-colors ${isMaximized ? 'rounded-none border-b border-black/40' : 'rounded-t-xl'
                             }`}>
                             <div className="flex-1" />
                             <div className="text-sm font-semibold text-white/80">{app.title || app.id}</div>
