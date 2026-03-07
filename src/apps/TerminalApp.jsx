@@ -81,7 +81,6 @@ const TerminalApp = () => {
             '  ls        - List project directories',
             '  cat [file]- Display content of a file',
             '  whoami    - Display bio & credentials',
-            '  skills    - Display technical arsenal',
             '  clear     - Clear terminal history',
             '',
             'Applications:',
@@ -136,11 +135,6 @@ const TerminalApp = () => {
             if (file === 'about_me.txt') return [personalInfo.specialization, personalInfo.philosophy];
             if (file === 'skills.json') return [JSON.stringify(agentData.find(d => d.machine_learning_frameworks), null, 2)];
             return [`cat: ${file}: No such file or directory`];
-        },
-        skills: () => {
-            const ml = agentData.find(d => d.machine_learning_frameworks)?.machine_learning_frameworks || [];
-            const nlp = agentData.find(d => d.nlp_llm_technologies)?.nlp_llm_technologies || [];
-            return ['--- Machine Learning ---', ...ml, '', '--- NLP & LLMs ---', ...nlp];
         },
         clear: () => {
             setHistory([]);
